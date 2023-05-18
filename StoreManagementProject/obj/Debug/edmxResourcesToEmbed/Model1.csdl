@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StoreSystemDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="client">
+    <Key>
+      <PropertyRef Name="client_id" />
+    </Key>
+    <Property Name="client_id" Type="Int32" Nullable="false" />
+    <Property Name="client_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="client_phone" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="client_fax" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="client_mobile" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+    <Property Name="client_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="client_website" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="client_permission" Relationship="Self.FK_client_permission_client" FromRole="client" ToRole="client_permission" />
+  </EntityType>
+  <EntityType Name="client_permission">
+    <Key>
+      <PropertyRef Name="client_perm_id" />
+      <PropertyRef Name="porduct_id" />
+    </Key>
+    <Property Name="client_perm_id" Type="Int32" Nullable="false" />
+    <Property Name="porduct_id" Type="Int32" Nullable="false" />
+    <Property Name="client_id" Type="Int32" Nullable="false" />
+    <Property Name="permission_date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="client" Relationship="Self.FK_client_permission_client" FromRole="client_permission" ToRole="client" />
+    <NavigationProperty Name="product" Relationship="Self.FK_client_permission_product" FromRole="client_permission" ToRole="product" />
+  </EntityType>
+  <EntityType Name="move_product">
+    <Key>
+      <PropertyRef Name="move_id" />
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="move_id" Type="Int32" Nullable="false" />
+    <Property Name="product_id" Type="Int32" Nullable="false" />
+    <Property Name="from_store_id" Type="Int32" Nullable="false" />
+    <Property Name="to_store_id" Type="Int32" Nullable="false" />
+    <Property Name="move_date" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="product" Relationship="Self.FK_move_product_product" FromRole="move_product" ToRole="product" />
+    <NavigationProperty Name="store" Relationship="Self.FK_move_product_store" FromRole="move_product" ToRole="store" />
+    <NavigationProperty Name="store1" Relationship="Self.FK_move_product_store1" FromRole="move_product" ToRole="store" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="product_id" Type="Int32" Nullable="false" />
+    <Property Name="product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="product_unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="production_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Expiry_period" Type="Int32" Nullable="false" />
+    <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="store_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="client_permission" Relationship="Self.FK_client_permission_product" FromRole="product" ToRole="client_permission" />
+    <NavigationProperty Name="move_product" Relationship="Self.FK_move_product_product" FromRole="product" ToRole="move_product" />
+    <NavigationProperty Name="store" Relationship="Self.FK_product_store" FromRole="product" ToRole="store" />
+    <NavigationProperty Name="supply_permission" Relationship="Self.FK_supply_permission_product" FromRole="product" ToRole="supply_permission" />
+  </EntityType>
+  <EntityType Name="store">
+    <Key>
+      <PropertyRef Name="store_id" />
+    </Key>
+    <Property Name="store_id" Type="Int32" Nullable="false" />
+    <Property Name="store_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="store_address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="store_keeper" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="move_product" Relationship="Self.FK_move_product_store" FromRole="store" ToRole="move_product" />
+    <NavigationProperty Name="move_product1" Relationship="Self.FK_move_product_store1" FromRole="store" ToRole="move_product" />
+    <NavigationProperty Name="products" Relationship="Self.FK_product_store" FromRole="store" ToRole="product" />
+  </EntityType>
+  <EntityType Name="supplier">
+    <Key>
+      <PropertyRef Name="supplier_id" />
+    </Key>
+    <Property Name="supplier_id" Type="Int32" Nullable="false" />
+    <Property Name="supplier_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="supplier_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="supplier_fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="supplier_mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="supplier_emial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="supplier_website" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="supply_permission" Relationship="Self.FK_supply_permission_supplier" FromRole="supplier" ToRole="supply_permission" />
+  </EntityType>
+  <EntityType Name="supply_permission">
+    <Key>
+      <PropertyRef Name="supply_perm_id" />
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="supply_perm_id" Type="Int32" Nullable="false" />
+    <Property Name="product_id" Type="Int32" Nullable="false" />
+    <Property Name="supplier_id" Type="Int32" Nullable="false" />
+    <Property Name="perm_date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="product" Relationship="Self.FK_supply_permission_product" FromRole="supply_permission" ToRole="product" />
+    <NavigationProperty Name="supplier" Relationship="Self.FK_supply_permission_supplier" FromRole="supply_permission" ToRole="supplier" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_client_permission_client">
+    <End Role="client" Type="Self.client" Multiplicity="1" />
+    <End Role="client_permission" Type="Self.client_permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="client">
+        <PropertyRef Name="client_id" />
+      </Principal>
+      <Dependent Role="client_permission">
+        <PropertyRef Name="client_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_client_permission_product">
+    <End Role="product" Type="Self.product" Multiplicity="1" />
+    <End Role="client_permission" Type="Self.client_permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="product_id" />
+      </Principal>
+      <Dependent Role="client_permission">
+        <PropertyRef Name="porduct_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_move_product_product">
+    <End Role="product" Type="Self.product" Multiplicity="1" />
+    <End Role="move_product" Type="Self.move_product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="product_id" />
+      </Principal>
+      <Dependent Role="move_product">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_move_product_store">
+    <End Role="store" Type="Self.store" Multiplicity="1" />
+    <End Role="move_product" Type="Self.move_product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="store">
+        <PropertyRef Name="store_id" />
+      </Principal>
+      <Dependent Role="move_product">
+        <PropertyRef Name="from_store_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_move_product_store1">
+    <End Role="store" Type="Self.store" Multiplicity="1" />
+    <End Role="move_product" Type="Self.move_product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="store">
+        <PropertyRef Name="store_id" />
+      </Principal>
+      <Dependent Role="move_product">
+        <PropertyRef Name="to_store_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_product_store">
+    <End Role="store" Type="Self.store" Multiplicity="1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="store">
+        <PropertyRef Name="store_id" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="store_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_supply_permission_product">
+    <End Role="product" Type="Self.product" Multiplicity="1" />
+    <End Role="supply_permission" Type="Self.supply_permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="product_id" />
+      </Principal>
+      <Dependent Role="supply_permission">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_supply_permission_supplier">
+    <End Role="supplier" Type="Self.supplier" Multiplicity="1" />
+    <End Role="supply_permission" Type="Self.supply_permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="supplier">
+        <PropertyRef Name="supplier_id" />
+      </Principal>
+      <Dependent Role="supply_permission">
+        <PropertyRef Name="supplier_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StoreSystemDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="clients" EntityType="Self.client" />
+    <EntitySet Name="client_permission" EntityType="Self.client_permission" />
+    <EntitySet Name="move_product" EntityType="Self.move_product" />
+    <EntitySet Name="products" EntityType="Self.product" />
+    <EntitySet Name="stores" EntityType="Self.store" />
+    <EntitySet Name="suppliers" EntityType="Self.supplier" />
+    <EntitySet Name="supply_permission" EntityType="Self.supply_permission" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_client_permission_client" Association="Self.FK_client_permission_client">
+      <End Role="client" EntitySet="clients" />
+      <End Role="client_permission" EntitySet="client_permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_client_permission_product" Association="Self.FK_client_permission_product">
+      <End Role="product" EntitySet="products" />
+      <End Role="client_permission" EntitySet="client_permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_move_product_product" Association="Self.FK_move_product_product">
+      <End Role="product" EntitySet="products" />
+      <End Role="move_product" EntitySet="move_product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_move_product_store" Association="Self.FK_move_product_store">
+      <End Role="store" EntitySet="stores" />
+      <End Role="move_product" EntitySet="move_product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_move_product_store1" Association="Self.FK_move_product_store1">
+      <End Role="store" EntitySet="stores" />
+      <End Role="move_product" EntitySet="move_product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_product_store" Association="Self.FK_product_store">
+      <End Role="store" EntitySet="stores" />
+      <End Role="product" EntitySet="products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_supply_permission_product" Association="Self.FK_supply_permission_product">
+      <End Role="product" EntitySet="products" />
+      <End Role="supply_permission" EntitySet="supply_permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_supply_permission_supplier" Association="Self.FK_supply_permission_supplier">
+      <End Role="supplier" EntitySet="suppliers" />
+      <End Role="supply_permission" EntitySet="supply_permission" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
